@@ -770,16 +770,16 @@
       >
         <a
           v-for="item in mobileNavItems"
-          :key="item.href"
-          :href="item.href"
-          class="mobile-nav-item flex flex-col items-center justify-center rounded-2xl px-3 py-2 transition-all duration-300"
+          :key="item.id"
+          href="javascript:void(0)"
+          class="mobile-nav-item flex flex-col items-center justify-center rounded-2xl px-3 py-2 transition-all duration-300 cursor-pointer"
           :style="{
             color: activeSection === item.id ? 'var(--btn-primary-text)' : 'var(--text-muted)',
             backgroundColor: activeSection === item.id ? 'var(--accent)' : 'transparent',
             minWidth: '56px',
             border: activeSection === item.id ? '1px solid rgba(255,255,255,0.16)' : '1px solid transparent',
           }"
-          @click="onMobileNavClick(item.id)"
+          @click.prevent="onMobileNavClick(item.id)"
         >
           <!-- Home icon -->
           <svg v-if="item.id === 'home'" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
@@ -887,7 +887,7 @@ export default {
         { href: '#skills', id: 'skills', label: this.t.skills },
         { href: '#projects', id: 'projects', label: this.t.projects },
         { href: '#resume', id: 'resume', label: this.t.resume },
-        { href: '#contact', id: 'contact', label: this.t.contact },
+        { href: '#', id: 'contact', label: this.t.contact },
       ];
     },
     visibleProjects() {
@@ -968,6 +968,15 @@ export default {
 
     onMobileNavClick(id) {
       this.activeSection = id;
+      // Scroll to the target section smoothly
+      if (id === 'home') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
     },
 
     loadMoreProjects() {
@@ -1171,6 +1180,11 @@ export default {
 </script>
 
 <style scoped>
+/* Global smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
 /* Transition durations using custom values */
 .duration-400 {
   transition-duration: 400ms;

@@ -1,0 +1,97 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Light mode (default) ─── */
+:root {
+  --bg-primary: #F2E9DC;
+  --bg-secondary: #ece0d1;
+  --bg-card: rgba(217, 180, 157, 0.18);
+  --bg-nav: rgba(242, 233, 220, 0.85);
+  --text-primary: #5D3023;
+  --text-secondary: #895737;
+  --text-muted: #C08552;
+  --border-color: rgba(93, 48, 35, 0.12);
+  --accent: #C08552;
+  --accent-hover: #895737;
+  --card-hover-border: rgba(192, 133, 82, 0.35);
+  --tag-bg: rgba(192, 133, 82, 0.10);
+  --tag-border: rgba(192, 133, 82, 0.20);
+  --btn-primary-bg: #5D3023;
+  --btn-primary-text: #F2E9DC;
+  --btn-secondary-bg: rgba(192, 133, 82, 0.08);
+  --btn-secondary-border: rgba(93, 48, 35, 0.18);
+  --toggle-bg: rgba(192, 133, 82, 0.12);
+  --avatar-bg: #5D3023;
+  --avatar-text: #F2E9DC;
+  --section-alt-bg: rgba(217, 180, 157, 0.10);
+  color-scheme: light;
+}
+
+/* ─── Dark mode ─── */
+.dark {
+  --bg-primary: #1a1210;
+  --bg-secondary: #221a16;
+  --bg-card: rgba(137, 87, 55, 0.08);
+  --bg-nav: rgba(26, 18, 16, 0.88);
+  --text-primary: #F2E9DC;
+  --text-secondary: #D9B49D;
+  --text-muted: #C08552;
+  --border-color: rgba(192, 133, 82, 0.12);
+  --accent: #C08552;
+  --accent-hover: #D9B49D;
+  --card-hover-border: rgba(192, 133, 82, 0.30);
+  --tag-bg: rgba(192, 133, 82, 0.08);
+  --tag-border: rgba(192, 133, 82, 0.15);
+  --btn-primary-bg: #C08552;
+  --btn-primary-text: #1a1210;
+  --btn-secondary-bg: rgba(192, 133, 82, 0.06);
+  --btn-secondary-border: rgba(192, 133, 82, 0.18);
+  --toggle-bg: rgba(192, 133, 82, 0.10);
+  --avatar-bg: #C08552;
+  --avatar-text: #1a1210;
+  --section-alt-bg: rgba(137, 87, 55, 0.06);
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: 'Mitr', system-ui, sans-serif;
+  font-weight: 500;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+/* ─── Selection color ─── */
+::selection {
+  background: rgba(192, 133, 82, 0.25);
+  color: var(--text-primary);
+}
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(192, 133, 82, 0.25);
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(192, 133, 82, 0.45);
+}

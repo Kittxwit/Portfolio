@@ -1,6 +1,6 @@
 # Portfolio Kittawit
 
-Portfolio website built with Node.js, Vue.js, Vite, and Tailwind CSS.
+Portfolio website built with Vue.js, Vite, and Tailwind CSS.
 
 - Vue 3 frontend with Vite build system
 - Tailwind CSS styling

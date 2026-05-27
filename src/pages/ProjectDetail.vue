@@ -324,6 +324,7 @@
 
 <script>
 import { currentLang, toggleLang, translations } from '../utils/language.js';
+import { getLocalizedProject } from '../data/data.js';
 
 export default {
   data() {
@@ -437,6 +438,7 @@ export default {
 
     getImageUrl(imageName) {
       if (!imageName) return '';
+      if (typeof imageName === 'string' && (imageName.startsWith('http') || imageName.startsWith('/'))) return imageName;
       const fileName = imageName.includes('.') ? imageName : `${imageName}.jpg`;
       try {
         return new URL(`../assets/${fileName}`, import.meta.url).href;
@@ -446,16 +448,15 @@ export default {
       }
     },
 
-    async fetchProject() {
+    fetchProject() {
       try {
-        const id = this.$route.params.id;
-        const response = await fetch(`/api/projects/${id}?lang=${this.currentLang}`);
-        if (!response.ok) {
+        const id = parseInt(this.$route.params.id, 10);
+        this.project = getLocalizedProject(id, this.currentLang);
+        if (!this.project) {
           this.error = this.t.projectNotFound;
           this.loading = false;
           return;
         }
-        this.project = await response.json();
         this.loading = false;
       } catch (err) {
         this.error = this.t.failedToLoadProject;

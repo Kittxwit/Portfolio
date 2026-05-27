@@ -190,6 +190,7 @@
 
 <script>
 import { currentLang, toggleLang, translations } from '../utils/language.js';
+import { getLocalizedDesign } from '../data/data.js';
 export default {
   data() {
     return {
@@ -227,8 +228,18 @@ export default {
     document.body.style.overflow = '';
   },
   methods: {
-    async fetchDesign() { try { const id = this.$route.params.id; const res = await fetch(`/api/design/${id}?lang=${this.currentLang}`); if (!res.ok) { this.error = this.t.projectNotFound; this.loading = false; return; } this.design = await res.json(); this.currentImageIndex = 0; this.loading = false; } catch (e) { this.error = this.t.failedToLoadProject; this.loading = false; console.error(e); } },
-    getImageUrl(imageName) { if (!imageName) return ''; const fileName = imageName.includes('.') ? imageName : `${imageName}.jpg`; try { return new URL(`../assets/${fileName}`, import.meta.url).href; } catch (e) { console.error(e); return ''; } },
+    fetchDesign() { try { const id = parseInt(this.$route.params.id, 10); this.design = getLocalizedDesign(id, this.currentLang); if (!this.design) { this.error = this.t.projectNotFound; this.loading = false; return; } this.currentImageIndex = 0; this.loading = false; } catch (e) { this.error = this.t.failedToLoadProject; this.loading = false; console.error(e); } },
+    getImageUrl(imageName) {
+      if (!imageName) return '';
+      if (typeof imageName === 'string' && (imageName.startsWith('http') || imageName.startsWith('/'))) return imageName;
+      const fileName = imageName.includes('.') ? imageName : `${imageName}.jpg`;
+      try {
+        return new URL(`../assets/${fileName}`, import.meta.url).href;
+      } catch (e) {
+        console.error(e);
+        return '';
+      }
+    },
     openLightbox(index) { this.currentImageIndex = index; this.lightboxOpen = true; },
     closeLightbox() { this.lightboxOpen = false; },
     prevImage() { if (this.designImages.length === 0) return; this.currentImageIndex = (this.currentImageIndex - 1 + this.designImages.length) % this.designImages.length; },

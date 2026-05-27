@@ -300,6 +300,7 @@
 
 <script>
 import { currentLang, toggleLang, translations } from '../utils/language.js';
+import { getLocalizedExperience } from '../data/data.js';
 
 export default {
   data() {
@@ -371,16 +372,15 @@ export default {
   },
 
   methods: {
-    async fetchExperience() {
+    fetchExperience() {
       try {
-        const id = this.$route.params.id;
-        const response = await fetch(`/api/experience/${id}?lang=${this.currentLang}`);
-        if (!response.ok) {
+        const id = parseInt(this.$route.params.id, 10);
+        this.experience = getLocalizedExperience(id, this.currentLang);
+        if (!this.experience) {
           this.error = this.t.projectNotFound;
           this.loading = false;
           return;
         }
-        this.experience = await response.json();
         this.currentImageIndex = 0;
         this.loading = false;
       } catch (err) {
@@ -493,6 +493,7 @@ export default {
 
     getImageUrl(file) {
       if (!file) return '';
+      if (typeof file === 'string' && (file.startsWith('http') || file.startsWith('/'))) return file;
       const fileName = file.includes('.') ? file : `${file}.jpg`;
       try {
         return new URL(`../assets/${fileName}`, import.meta.url).href;

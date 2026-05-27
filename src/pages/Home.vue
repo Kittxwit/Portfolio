@@ -803,6 +803,7 @@
 
 <script>
 import { currentLang, toggleLang, translations } from '../utils/language.js';
+import { getLocalizedProjects, skills, getLocalizedResume } from '../data/data.js';
 
 export default {
   data() {
@@ -923,16 +924,11 @@ export default {
   },
 
   methods: {
-    async fetchData() {
+    fetchData() {
       try {
-        const [projectsRes, skillsRes, resumeRes] = await Promise.all([
-          fetch(`/api/projects?lang=${this.currentLang}`),
-          fetch(`/api/skills?lang=${this.currentLang}`),
-          fetch(`/api/resume?lang=${this.currentLang}`),
-        ]);
-        this.projects = await projectsRes.json();
-        this.skills = await skillsRes.json();
-        this.resume = await resumeRes.json();
+        this.projects = getLocalizedProjects(this.currentLang);
+        this.skills = skills;
+        this.resume = getLocalizedResume(this.currentLang);
       } catch (err) {
         this.error = this.t.errorLoading;
         console.error(err);
@@ -941,6 +937,8 @@ export default {
 
     getImageUrl(imageName) {
       if (!imageName) return '';
+      // If already an absolute URL or absolute path, return as-is
+      if (typeof imageName === 'string' && (imageName.startsWith('http') || imageName.startsWith('/'))) return imageName;
       const fileName = imageName.includes('.') ? imageName : `${imageName}.jpg`;
       try {
         return new URL(`../assets/${fileName}`, import.meta.url).href;

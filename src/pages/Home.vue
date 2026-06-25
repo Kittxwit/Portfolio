@@ -28,10 +28,11 @@
               v-for="link in navLinks"
               :key="link.href"
               :href="link.href"
-              class="nav-link text-sm font-medium transition-colors duration-300"
+              class="nav-link text-sm font-medium transition-colors duration-300 cursor-pointer"
               :style="{ color: 'var(--text-muted)' }"
               @mouseenter="(e) => (e.target.style.color = 'var(--text-primary)')"
               @mouseleave="(e) => (e.target.style.color = 'var(--text-muted)')"
+              @click.prevent="scrollToSection(link.href)"
               >{{ link.label }}</a
             >
           </div>
@@ -1053,6 +1054,18 @@ export default {
 
     scrollToProjectsTop() {
       const section = document.getElementById('projects');
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    },
+
+    scrollToSection(href) {
+      if (!href || href === '#') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
+      const sectionId = href.replace('#', '');
+      const section = document.getElementById(sectionId);
       if (section) {
         section.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
